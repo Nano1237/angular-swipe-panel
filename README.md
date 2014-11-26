@@ -9,8 +9,14 @@ The created panels, almost look like the one you find in a native programmed Sma
 
 ## Quick use
 
-1. Clone the repository `$ git clone https://github.com/Nano1237/angular-swipe-panel.git`
-2. Include the Javascript file `<script src="{path-to-js-files}/angular-swipe-panel.js"></script>`
+1. Clone the repository 
+```
+$ git clone https://github.com/Nano1237/angular-swipe-panel.git
+```
+2. Include the Javascript file
+```
+<script src="{path-to-js-files}/angular-swipe-panel.js"></script>
+```
 3. Add the Module in your AngularJS app `"angular-swipe-panel"`
 4. Create a Element with the panel directive `ng-swipe-panel="{postion}"`
 5. Style it any way you like
