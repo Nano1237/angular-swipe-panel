@@ -5,7 +5,7 @@ The created panels, almost look like the one you find in a native programmed Sma
 
 ## DEMO
 
-[Demo fiddle](http://jsfiddle.net/gh/get/library/pure/Nano1237/angular-swipe-panel/tree/master/demo), with working example
+[Demo fiddle](http://jsfiddle.net/gh/get/AngularJS/1.2.1/Nano1237/angular-swipe-panel/tree/master/demo), with working example
 
 ## Quick use
 
