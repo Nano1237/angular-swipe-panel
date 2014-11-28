@@ -45,6 +45,7 @@
              * @param {_L1._L17.Anonym$3} conf The Configurations for the panels
              * @param {Object} cons The Constants for the Panels
              * @param {_L7.Anonym$1} panels The Saved Panels
+             * @param {Object} actions The actions for the panels
              */
             .run([
                 'swipePanelConfigs',
@@ -198,11 +199,13 @@
              * 
              * @description You can access Panel actions with this Factory
              * @param {_L7.Anonym$1} panels All created Panels as Object
+             * @param {Object} $rootScope The rootscope , that we can add the panelAction
              * @returns {_L17.Anonym$3}
              */
             .factory('panelActions', [
                 'nano_allPanels',
-                function(panels) {
+                '$rootScope',
+                function(panels, $rootScope) {
                     /**
                      * 
                      * @description Checks if the Panel exists
@@ -212,7 +215,7 @@
                     function panelExists(name) {
                         return typeof name === 'string' && typeof panels[name] !== 'undefined';
                     }
-                    return {
+                    var panelActions = {
                         resize: function() {
                             for (var i in panels) {
                                 panels[i].resize();
@@ -263,6 +266,8 @@
 
                         }
                     };
+                    $rootScope.panelActions = panelActions;
+                    return panelActions;
                 }
             ])
             /**

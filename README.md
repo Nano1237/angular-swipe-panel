@@ -79,6 +79,9 @@ You can manipulate the Panel Manualy with the panelActions Sevice.
 3. Trigger a Panel Resizing with the `panelActions.resize()` Method
 4. Toggle open/close Panels with the `panelActions.toggle(panelPosition)` Method
 
+
+This Service is also available from the $rootScope.
+
 Example:
 ```
 angular.module('myApp', [
