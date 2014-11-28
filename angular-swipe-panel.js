@@ -350,7 +350,7 @@
                         var css = {
                             'position': 'fixed',
                             'top': '0px',
-                            'background': 'red',
+                            'z-index': '9999',
                             'width': this.width + 'px',
                             'height': '150%',
                             'transition-timing-function': 'ease-in-out'
