@@ -25,7 +25,9 @@
                         //Percentage width of the panel relative to the screen width.
                         panelWidth: 80,
                         //Percentage distance of the half opened panel, until it shoud bounce to open/close
-                        toggleDistance: 75
+                        toggleDistance: 75,
+                        //Shoud we add a swipe listener?
+                        swipeOpen: false
                     };
                 }
             ])
@@ -190,8 +192,10 @@
                             panels[dataContainer.oppositeDirection].element.css(ce);
                         }
                     };
-                    w.addEventListener(cons.touchStart, swipe.touchStart, false);
-                    w.addEventListener(cons.touchEnd, swipe.touchEnd, false);
+                    if (conf.swipeOpen) {
+                        w.addEventListener(cons.touchStart, swipe.touchStart, false);
+                        w.addEventListener(cons.touchEnd, swipe.touchEnd, false);
+                    }
                     w.addEventListener('resize', actions.resize, false);
                 }
             ])
