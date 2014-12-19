@@ -1,3 +1,8 @@
+/*
+ angular-swipe-panel v0.1
+ (c) 2014 Tim Rücker
+ License: Apache License
+ */
 (function(w) {
     "use strict";
 
