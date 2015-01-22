@@ -3,10 +3,9 @@
  (c) 2014 Tim Rücker
  License: Apache License
  */
-(function(w) {
+(function(angular) {
     "use strict";
-
-    w.angular.module('angular-swipe-panel', [])
+    angular.module('angular-swipe-panel', [])
             /**
              * 
              * @description This Factory, contains all created Panels for later reuse
@@ -40,12 +39,15 @@
              * 
              * @description Contains neccesarry Constants for the Swipe-Panels
              */
-            .constant('nano_swipePanelConst', new function() {
-                this.W3CTouch = ("ontouchstart" in w) && ("ontouchmove" in w) && ("ontouchend" in w) && ("ontouchcancel" in w);
-                this.isMSTouch = ("onmspointerdown" in w) && ("onmspointermove" in w) && ("onmspointerup" in w) && ("onmspointerover" in w) && ("onmspointerout" in w);
-                this.touchStart = this.W3CTouch ? "touchstart" : this.isMSTouch ? "MSPointerDown" : "mousedown";
-                this.touchEnd = this.W3CTouch ? "touchend" : this.isMSTouch ? "MSPointerUp" : "mouseup";
-                this.touchMove = this.W3CTouch ? "touchmove" : this.isMSTouch ? "MSPointerMove" : "mousemove";
+            .constant('nano_swipePanelConst', function() {
+                function Nano_swipePanelConst() {
+                    this.W3CTouch = ("ontouchstart" in angular) && ("ontouchmove" in angular) && ("ontouchend" in angular) && ("ontouchcancel" in angular);
+                    this.isMSTouch = ("onmspointerdown" in angular) && ("onmspointermove" in angular) && ("onmspointerup" in angular) && ("onmspointerover" in angular) && ("onmspointerout" in angular);
+                    this.touchStart = this.W3CTouch ? "touchstart" : this.isMSTouch ? "MSPointerDown" : "mousedown";
+                    this.touchEnd = this.W3CTouch ? "touchend" : this.isMSTouch ? "MSPointerUp" : "mouseup";
+                    this.touchMove = this.W3CTouch ? "touchmove" : this.isMSTouch ? "MSPointerMove" : "mousemove";
+                }
+                return new Nano_swipePanelConst();
             })
             /**
              * 
@@ -88,7 +90,7 @@
                         var xDiff = dataContainer.coordsX.max - dataContainer.coordsX.min;
                         var yDiff = dataContainer.coordsY.max - dataContainer.coordsY.min;
 
-                        if (yDiff >= (w.innerHeight / 100 * conf.YIgnoreDistance) || yDiff > xDiff || dataContainer.touchesX.length < 5 && xDiff < w.innerWidth / 100 * conf.XRegisterDistance) {
+                        if (yDiff >= (angular.innerHeight / 100 * conf.YIgnoreDistance) || yDiff > xDiff || dataContainer.touchesX.length < 5 && xDiff < angular.innerWidth / 100 * conf.XRegisterDistance) {
                             return;
                         }
 
@@ -101,7 +103,7 @@
                      * @returns {Boolean}
                      */
                     function isOpenMax() {
-                        var rightPanel = dataContainer.direction === 'left' && (panels[dataContainer.oppositeDirection].newX + panels[dataContainer.oppositeDirection].parentMargin - (w.innerWidth / 100 * (100 - conf.panelWidth)) <= 0);
+                        var rightPanel = dataContainer.direction === 'left' && (panels[dataContainer.oppositeDirection].newX + panels[dataContainer.oppositeDirection].parentMargin - (angular.innerWidth / 100 * (100 - conf.panelWidth)) <= 0);
                         var leftPanel = dataContainer.direction === 'right' && panels[dataContainer.oppositeDirection].newX + panels[dataContainer.oppositeDirection].parentMargin >= 0;
                         if (leftPanel || rightPanel) {
                             return true;
@@ -123,8 +125,8 @@
                         touchStart: function(evt) {
                             var xClick = cons.W3CTouch ? evt.touches[0].screenX : cons.isMSTouch ? evt.clientX : evt.clientX;
                             dataContainer.touchesX.push(xClick);
-                            dataContainer.touchesY.push(w.scrollY);
-                            w.addEventListener(cons.touchMove, swipe.touchMove, false);
+                            dataContainer.touchesY.push(angular.scrollY);
+                            angular.addEventListener(cons.touchMove, swipe.touchMove, false);
                         },
                         /**
                          * 
@@ -132,10 +134,10 @@
                          * @param {Object} evt The ClickEnd Event
                          */
                         touchEnd: function(evt) {
-                            w.removeEventListener(cons.touchMove, swipe.touchMove);
+                            angular.removeEventListener(cons.touchMove, swipe.touchMove);
                             var xClick = cons.W3CTouch ? evt.changedTouches[0].screenX : cons.isMSTouch ? evt.clientX : evt.clientX;
                             dataContainer.touchesX.push(xClick);
-                            dataContainer.touchesY.push(w.scrollY);
+                            dataContainer.touchesY.push(angular.scrollY);
 
                             if (dataContainer.direction === '') {//If swipe Method doesnt worked
                                 directionChecker();
@@ -170,7 +172,7 @@
                             //
                             if (dataContainer.touchesX.length < (conf.XRegisterDistance * 2)) {
                                 dataContainer.touchesX.push(xTouch);
-                                dataContainer.touchesY.push(w.scrollY);
+                                dataContainer.touchesY.push(angular.scrollY);
                             }
 
                             if (dataContainer.touchesX.length < conf.XRegisterDistance) {//If we dont have enought data
@@ -181,9 +183,9 @@
                             if (dataContainer.direction === '' || panels[dataContainer.direction].isOpen) {
                                 return;
                             }
-                            var oldx = panels[dataContainer.oppositeDirection].newX || 0;
+//                            var oldx = panels[dataContainer.oppositeDirection].newX || 0;
                             if (dataContainer.oppositeDirection === 'left') {//von links
-                                panels[dataContainer.oppositeDirection].newX = (xTouch - (w.innerWidth / 100 * conf.panelWidth)) - panels[dataContainer.oppositeDirection].parentMargin;
+                                panels[dataContainer.oppositeDirection].newX = (xTouch - (angular.innerWidth / 100 * conf.panelWidth)) - panels[dataContainer.oppositeDirection].parentMargin;
                             } else {//von rechts
                                 panels[dataContainer.oppositeDirection].newX = xTouch - panels[dataContainer.oppositeDirection].parentMargin;
                             }
@@ -198,10 +200,10 @@
                         }
                     };
                     if (conf.swipeOpen) {
-                        w.addEventListener(cons.touchStart, swipe.touchStart, false);
-                        w.addEventListener(cons.touchEnd, swipe.touchEnd, false);
+                        angular.addEventListener(cons.touchStart, swipe.touchStart, false);
+                        angular.addEventListener(cons.touchEnd, swipe.touchEnd, false);
                     }
-                    w.addEventListener('resize', actions.resize, false);
+                    angular.addEventListener('resize', actions.resize, false);
                 }
             ])
             /**
@@ -292,12 +294,12 @@
                         this.position = position;
                         this.element = element;
                         this.isOpen = false;
-                        this.parentMargin = (w.innerWidth - this.element.parent()[0].offsetWidth) / 2;
+                        this.parentMargin = (angular.innerWidth - this.element.parent()[0].offsetWidth) / 2;
 
                         this.resize = function() {
-                            this.width = (w.innerWidth / 100 * configs.panelWidth);
-                            this.startX = (this.position === 'left' ? 0 - this.width : w.innerWidth) - this.parentMargin;
-                            this.stopX = (this.position === 'left' ? 0 : (w.innerWidth / 100 * (100 - configs.panelWidth))) - this.parentMargin;
+                            this.width = (angular.innerWidth / 100 * configs.panelWidth);
+                            this.startX = (this.position === 'left' ? 0 - this.width : angular.innerWidth) - this.parentMargin;
+                            this.stopX = (this.position === 'left' ? 0 : (angular.innerWidth / 100 * (100 - configs.panelWidth))) - this.parentMargin;
                             var ncss = {
                                 'width': this.width + 'px',
                                 'transition-duration': '0s'
@@ -305,7 +307,7 @@
                             this.element.css(ncss);
                         };
                         this.resize();
-                        var s = w.document.body.style;
+                        var s = angular.document.body.style;
                         // detect css features
                         this.cssProps = ("MozTransition" in s && "MozTransform" in s) ? {
                             domTransition: "MozTransition",
@@ -360,7 +362,7 @@
                             ce[this.cssProps.transform] = 'translate3d(' + this.startX + 'px, 0px,0px)';
                             this.element.css(ce);
                         };
-                        this.element.parent().css({'width': w.innerWidth + 'px'});
+                        this.element.parent().css({'width': angular.innerWidth + 'px'});
                         var css = {
                             'position': 'fixed',
                             'top': '0px',
@@ -387,7 +389,7 @@
                 function(Creator, panels) {
                     return {
                         compile: function(element, attr) {
-                            var position = attr['ngSwipePanel'];
+                            var position = attr.ngSwipePanel;
                             if (typeof panels[position] !== 'undefined') {
                                 return;
                             }
@@ -396,4 +398,4 @@
                     };
                 }
             ]);
-})(window);
+})(angular);

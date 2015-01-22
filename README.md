@@ -14,7 +14,7 @@ The created panels, almost look like the one you find in a native programmed Sma
 $ git clone https://github.com/Nano1237/angular-swipe-panel.git
 ```
 2. Include the Javascript file
-```
+```html
 <script src="{path-to-js-files}/angular-swipe-panel.js"></script>
 ```
 3. Add the Module in your AngularJS app `"angular-swipe-panel"`
@@ -25,7 +25,7 @@ $ git clone https://github.com/Nano1237/angular-swipe-panel.git
 
 #### How to add the Module to my App?
 
-```
+```javascript
 ...
 angular.module('myApp', [
     ...
@@ -37,7 +37,7 @@ angular.module('myApp', [
 
 #### How does the Element with the directive looks like?
 
-```
+```html
 ...
 <body>
     <!-- Thats how you add it -->
@@ -52,7 +52,7 @@ angular.module('myApp', [
 
 You can configure some Options in th run block of your angularjs app like this
 
-```
+```javascript
 angular.module('myApp', [
     'angular-swipe-panel'
 ]).run([
@@ -83,7 +83,7 @@ You can manipulate the Panel Manualy with the panelActions Sevice.
 This Service is also available from the $rootScope.
 
 Example:
-```
+```javascript
 angular.module('myApp', [
     'angular-swipe-panel'
 ]).controller('MainCtrl', [
@@ -98,7 +98,7 @@ angular.module('myApp', [
 
 The panelActions Service also provides a `panelActions.on(panelPosition,trigger,callback)` and `panelActions.off(panelPosition)` Method.
 
-```
+```javascript
 angular.module('myApp', [
     'angular-swipe-panel'
 ]).controller('MainCtrl', [
