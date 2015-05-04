@@ -291,15 +291,19 @@
      * @returns {Object}
      */
         .factory('nano_panelCreator', [
+            '$window',
+            '$rootScope',
             'swipePanelConfigs',
-            function (configs) {
+
+            function ($window, $rootScope, configs) {
                 return function (element, position) {
+                    var self = this;
                     this.position = position;
                     this.element = element;
                     this.isOpen = false;
                     this.parentMargin = (w.innerWidth - this.element.parent()[0].offsetWidth) / 2;
 
-                    this.resize = function () {
+                    this.resize = function (resize) {
                         this.width = (w.innerWidth / 100 * configs.panelWidth);
                         this.startX = (this.position === 'left' ? 0 - this.width : w.innerWidth) - this.parentMargin;
                         this.stopX = (this.position === 'left' ? 0 : (w.innerWidth / 100 * (100 - configs.panelWidth))) - this.parentMargin;
@@ -307,9 +311,18 @@
                             'width': this.width + 'px',
                             'transition-duration': '0s'
                         };
+                        this.element.parent().css({'width': w.innerWidth + 'px'});
                         this.element.css(ncss);
+                        if (resize) {
+                            $rootScope.$apply(function () {
+                                self.close(true);
+                            });
+                        }
                     };
                     this.resize();
+                    angular.element($window).bind('resize', function () {
+                        self.resize(true);
+                    });
                     var s = w.document.body.style;
                     // detect css features
                     this.cssProps = ("MozTransition" in s && "MozTransform" in s) ? {
@@ -359,9 +372,10 @@
                         ce[this.cssProps.transform] = 'translate3d(' + this.stopX + 'px, 0px,0px)';
                         this.element.css(ce);
                     };
-                    this.close = function () {
+                    this.close = function (instant) {
+                        instant = instant || false;
                         this.isOpen = false;
-                        var ce = {'transition-duration': '0.3s'};
+                        var ce = {'transition-duration': instant ? '0s' : '0.3s'};
                         ce[this.cssProps.transform] = 'translate3d(' + this.startX + 'px, 0px,0px)';
                         this.element.css(ce);
                     };
@@ -421,6 +435,7 @@
                             $rootScope.$apply(function () {
                                 actions.toggle();
                             });
+
                         });
                     }
                 };
